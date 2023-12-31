@@ -1,70 +1,114 @@
-# Getting Started with Create React App
+1. `create-react-app 项目名称`
+2. 根组件 App.js
+3. JSX 用法
+   1. return 后需要有（）
+   2. jsx 只能返回一个根元素。如何需要加多个，则需要在根路径下加空标签`<>`
+4. jsx 插值写法 `{}`
+5. jsx 中的属性一般是用驼峰命名法
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### 数组用法：
 
-## Available Scripts
+```
+import { Fragment } from "react"
+function App() {
+     const list = [
+     { id: 1, name: "小吴" },
+     { id: 2, name: "小李" },
+     { id: 3, name: "小花" },
+     ]
+     const listContent = list.map((item) => (
+     <Fragment>
+     <li key={item.name}>{item.name}</li>
+     <li>-----</li>
+     </Fragment>
+     ))
+     return <ul>{listContent}</ul>
+ }
+ export default App
+```
 
-In the project directory, you can run:
+### 事件
 
-### `npm start`
+### 状态 useState
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. 对象更新
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+import { useState } from "react"
+function App() {
+  const [data, setData] = useState({
+    title: "默认标题",
+    content: "默认内容",
+  })
 
-### `npm test`
+  function handleClick(e) {
+    setData({
+      ...data, //展开运算符(...写在前面，即将原先的属性展开，并将后面的同名属性的值覆盖之前的同名属性值)
+      content: "新内容",
+    })
+  }
+  return (
+    <>
+      <div title={data.title}>{data.content}</div>
+      <button onClick={handleClick}>按钮</button>
+    </>
+  )
+}
+export default App
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. 数组
+   2.1 数组增加
 
-### `npm run build`
+```
+import { useState } from "react"
+function App() {
+ const [data, setData] = useState([
+   { id: 1, name: "小吴" },
+   { id: 2, name: "小李" },
+   { id: 3, name: "小花" },
+ ])
+ const listData = data.map((item) => <li key={item.id}>{item.name}</li>)
+ let id = 3
+ function handleClick(e) {
+   setData([
+     ...data, //此事...data可以在前，也可以在后。在前则代表把原来的数组内容放在前面，新增对象放后面
+     {
+       id: ++id,
+       name: "新内容",
+     },
+   ])
+ }
+ return (
+   <>
+     <ul>{listData}</ul>
+     <button onClick={handleClick}>按钮</button>
+   </>
+ )
+}
+export default App
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2.2 删除第二个数组(用 filter)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+import { useState } from "react"
+function App() {
+ const [data, setData] = useState([
+   { id: 1, name: "小吴" },
+   { id: 2, name: "小李" },
+   { id: 3, name: "小花" },
+ ])
+ const listData = data.map((item) => <li key={item.id}>{item.name}</li>)
+ function handleClick(e) {
+   setData(data.filter((item) => item.id !== 2))
+ }
+ return (
+   <>
+     <ul>{listData}</ul>
+     <button onClick={handleClick}>按钮</button>
+   </>
+ )
+}
+export default App
+```

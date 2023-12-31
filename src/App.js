@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useState } from "react"
 function App() {
+  const [data, setData] = useState([
+    { id: 1, name: "小吴" },
+    { id: 2, name: "小李" },
+    { id: 3, name: "小花" },
+  ])
+  const listData = data.map((item) => <li key={item.id}>{item.name}</li>)
+  function handleClick(e) {
+    setData(data.filter((item) => item.id !== 2))
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <ul>{listData}</ul>
+      <button onClick={handleClick}>按钮</button>
+    </>
+  )
 }
-
-export default App;
+export default App
